@@ -3,4 +3,6 @@ import { Heading } from "rebass"
 
 import { RouteComponentProps } from '@reach/router'
 
-export default (props: RouteComponentProps) => <Heading>Error 404</Heading>
+const NotFound: React.FC<RouteComponentProps> = props => <Heading>Error 404</Heading>
+
+export default NotFound
