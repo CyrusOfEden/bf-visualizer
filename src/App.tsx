@@ -10,6 +10,8 @@ import NotFound from "pages/NotFound"
 
 const App = () => {
   const theme = React.useMemo(createTheme, [])
+  // @ts-ignore for in-browser fun
+  window.theme = theme
 
   return (
     <ThemeProvider<any> theme={theme as any}>

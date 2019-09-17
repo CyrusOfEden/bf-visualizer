@@ -36,21 +36,21 @@ const emptyExecutionState = {
 const url = (path = "") => `https://sec.meetkaruna.com/api/v1/brainfuck${path}`
 
 export async function execute(
-  data: InitialExecutionState,
+  script: InitialExecutionState,
 ): Promise<ExecutionState> {
-  const { body } = await axios.post(url(), data)
-  return body
+  const { data } = await axios.post(url(), script)
+  return data
 }
 
 export async function step(state: ExecutionState): Promise<ExecutionState> {
   const { id } = state
-  const { body } = await axios.post(url(`/${id}/step`))
-  return body
+  const { data } = await axios.post(url(`/${id}/step`))
+  return data
 }
 
 export function useExecutor(initialState = emptyInitialExecutionState) {
-  const [isLoading, setLoading] = useState<boolean>(false)
-  const [isError, setError] = useState<Error | false>(false)
+  const [isLoading, setLoading] = useState<boolean | null>(null)
+  const [error, setError] = useState<Error | false>(false)
   const [state, setExecutionState] = useState<ExecutionState>(
     emptyExecutionState,
   )
@@ -63,18 +63,20 @@ export function useExecutor(initialState = emptyInitialExecutionState) {
   }
 
   const firstStep = () => {
-    if (initialState.script.trim()) {
+    if (script.script.trim()) {
       setLoading(true)
       execute(script).then(setState, setError)
     }
   }
 
   const nextStep = () => {
-    setLoading(true)
-    step(state).then(setState, setError)
+    if (!state.done) {
+      setLoading(true)
+      step(state).then(setState, setError)
+    }
   }
 
   useEffect(firstStep, [script])
 
-  return { setScript, isLoading, isError, nextStep, state }
+  return { setScript, isLoading, error, nextStep, state }
 }
