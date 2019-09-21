@@ -70,7 +70,7 @@ const CodeForm: React.FC<CodeFormProps> = ({ onSubmit }) => {
           placeholder="Enter your Brianfuck script here..."
         />
       </Box>
-      <Box sx={{ my: 3 }}>
+      {/* <Box sx={{ my: 3 }}>
         <Label htmlFor="input" sx={{ mb: 2, color: "base1" }}>
           Input
         </Label>
@@ -80,7 +80,7 @@ const CodeForm: React.FC<CodeFormProps> = ({ onSubmit }) => {
           onChange={setValue(setInput)}
           placeholder="STDIN (optional)"
         />
-      </Box>
+      </Box> */}
       <Button type="submit" sx={{ bg: "violet" }}>
         Reload Visualizer
       </Button>
