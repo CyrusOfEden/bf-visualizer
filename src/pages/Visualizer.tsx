@@ -11,14 +11,12 @@ import CodeForm from "components/CodeForm"
 const Visualizer: React.FC<RouteComponentProps> = props => {
   const { setScript, isLoading, error, nextStep, state } = useExecutor()
   const [isPlaying, setPlaying] = useState(false)
-  const [fastForward, setFastForward] = useState(false)
 
   useEffect(() => {
     if (isPlaying) {
-      const interval = setInterval(nextStep, fastForward ? 100 : 300)
-      return () => clearInterval(interval)
+      nextStep()
     }
-  }, [nextStep, isPlaying, fastForward])
+  }, [isPlaying, nextStep, state])
 
   const { data, data_pointer } = state
   const { script, instruction_pointer } = state
@@ -31,14 +29,14 @@ const Visualizer: React.FC<RouteComponentProps> = props => {
       </Box>
       {isLoading == null || (
         <Box sx={{ mt: 5 }}>
-          {state.done && (
-            <Box sx={{ my: 3 }}>
-              <Heading>Output</Heading>
-              <Text sx={{ color: "base02", fontWeight: "bold", my: 2 }}>
-                {state.output}
+          {error && (
+            <Box sx={{ p: 3, color: "white", bg: "red" }}>
+              <Text>
+                {error.error} — {error.message}
               </Text>
             </Box>
           )}
+
           <Box sx={{ my: 3 }}>
             <Heading>Data</Heading>
             <Box sx={{ my: 2 }}>
@@ -54,28 +52,36 @@ const Visualizer: React.FC<RouteComponentProps> = props => {
             <Heading>Script</Heading>
             <Box sx={{ my: 2 }}>
               <CodeGrid
-                maxRows={12}
+                maxRows={6}
                 activeColor="cyan"
                 array={script}
                 cursor={instruction_pointer}
               />
             </Box>
           </Box>
-          <Button
-            onClick={() => setPlaying(!isPlaying)}
-            sx={{ mr: 2, bg: "cyan" }}
-          >
-            {isPlaying ? "Pause" : "Play"}
-          </Button>
-          {isPlaying ? (
-            <Button onClick={() => setFastForward(!fastForward)} sx={{ mr: 2 }}>
-              {fastForward ? "Slow Down" : "Fast Forward"}
-            </Button>
-          ) : (
-            <Button onClick={nextStep} sx={{ mr: 2, bg: "magenta" }}>
+          {state.done && state.output && (
+            <Box sx={{ mt: 3, my: 4 }}>
+              <Heading sx={{ mb: 2 }}>Output</Heading>
+              <Text sx={{ color: "base02", fontWeight: "bold" }}>
+                {state.output}
+              </Text>
+            </Box>
+          )}
+          <Box>
+            <Button
+              onClick={nextStep}
+              sx={{ mr: 2, bg: "cyan" }}
+              disabled={isPlaying}
+            >
               Step
             </Button>
-          )}
+            <Button
+              onClick={() => setPlaying(!isPlaying)}
+              sx={{ mr: 2, bg: "magenta" }}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </Button>
+          </Box>
         </Box>
       )}
     </Box>

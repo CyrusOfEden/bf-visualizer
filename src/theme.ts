@@ -40,6 +40,7 @@ const colors = {
 
 const buttons = {
   primary: {
+    userSelect: "none",
     cursor: "pointer",
     backgroundColor: base00,
     "&:hover": {
@@ -50,6 +51,10 @@ const buttons = {
     },
     "&:focus": {
       outline: 0,
+    },
+    "&:disabled": {
+      cursor: "not-allowed",
+      backgroundColor: "base1"
     },
   },
 }

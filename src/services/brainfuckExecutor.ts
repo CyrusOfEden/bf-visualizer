@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import axios from "axios"
 
 export type InitialExecutionState = {
@@ -22,6 +22,11 @@ export type ExecutionState = {
   data: Array<number>
 }
 
+export type ExecutionError = {
+  error: string,
+  message: string
+}
+
 const emptyExecutionState = {
   id: "",
   done: false,
@@ -33,31 +38,35 @@ const emptyExecutionState = {
   data: [],
 }
 
-const url = (path = "") => `https://sec.meetkaruna.com/api/v1/brainfuck${path}`
+const interpreter = axios.create({
+  baseURL: "https://sec.meetkaruna.com/api/v1/brainfuck",
+  validateStatus: statusCode => statusCode < 500
+})
+
+const processResponse = ({ status, data }) =>
+  (status >= 200 && status <= 300) ? Promise.resolve(data) : Promise.reject(data)
 
 export async function execute(
   script: InitialExecutionState,
 ): Promise<ExecutionState> {
-  const { data } = await axios.post(url(), script)
-  return data
+  return processResponse(await interpreter.post("", script))
 }
 
 export async function step(state: ExecutionState): Promise<ExecutionState> {
   const { id } = state
-  const { data } = await axios.post(url(`/${id}/step`))
-  return data
+  return processResponse(await interpreter.post(`/${id}/step`))
 }
 
 export function useExecutor(initialState = emptyInitialExecutionState) {
   const [isLoading, setLoading] = useState<boolean | null>(null)
-  const [error, setError] = useState<Error | false>(false)
+  const [error, setError] = useState<ExecutionError | null>(null)
   const [state, setExecutionState] = useState<ExecutionState>(
     emptyExecutionState,
   )
   const [script, setScript] = useState(initialState)
 
   const setState = (newState: ExecutionState) => {
-    setError(false)
+    setError(null)
     setExecutionState(newState)
     setLoading(false)
   }
@@ -69,12 +78,11 @@ export function useExecutor(initialState = emptyInitialExecutionState) {
     }
   }
 
-  const nextStep = () => {
-    if (!state.done) {
-      setLoading(true)
-      step(state).then(setState, setError)
-    }
-  }
+  // useCallback to serialize the execution of multiple calls
+  const nextStep = useCallback(() => {
+    setLoading(true)
+    return step(state).then(setState, setError)
+  }, [state])
 
   useEffect(firstStep, [script])
 

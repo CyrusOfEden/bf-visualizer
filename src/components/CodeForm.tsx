@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import { Button, Box } from "rebass"
 import { Label } from "@rebass/forms"
@@ -8,7 +8,7 @@ import { InitialExecutionState } from "services/brainfuckExecutor"
 import { theme } from "theme"
 
 const helloWorld =
-  "# Hello World =)\n++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+  "# Hello World\n++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
 
 const Textarea: React.FC<any> = props => (
   <AutosizeTextarea
@@ -43,20 +43,17 @@ type CodeFormProps = {
 const CodeForm: React.FC<CodeFormProps> = ({ onSubmit }) => {
   const [script, setScript] = useState<string>(helloWorld)
   const [input, setInput] = useState<string>("")
-  const [touched, setTouched] = useState(false)
 
-  // Call onSubmit *only* on first render with sample hello world script
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useMemo(() => onSubmit({ script, input }), [onSubmit])
+  useEffect(() => {
+    onSubmit({ script, input })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = event => {
     event.preventDefault()
     onSubmit({ script, input })
-    setTouched(false)
   }
 
   const setValue = setter => event => {
-    setTouched(true)
     setter(event.target.value)
   }
 
@@ -84,11 +81,9 @@ const CodeForm: React.FC<CodeFormProps> = ({ onSubmit }) => {
           placeholder="STDIN (optional)"
         />
       </Box>
-      {touched && (
-        <Button type="submit" sx={{ bg: "violet" }}>
-          Reload Visualizer
-        </Button>
-      )}
+      <Button type="submit" sx={{ bg: "violet" }}>
+        Reload Visualizer
+      </Button>
     </form>
   )
 }

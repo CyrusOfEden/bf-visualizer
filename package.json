@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reach/router": "^1.2.1",
     "@rebass/forms": "^4.0.5",
     "@rebass/preset-material": "^4.0.5",
     "@types/jest": "24.0.18",

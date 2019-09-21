@@ -1,17 +1,13 @@
 import React from "react"
 import { ThemeProvider } from "emotion-theming"
-import { Router } from "@reach/router"
 
 import { createTheme } from "theme"
 
 import { Box } from "rebass"
 import Visualizer from "pages/Visualizer"
-import NotFound from "pages/NotFound"
 
 const App = () => {
   const theme = React.useMemo(createTheme, [])
-  // @ts-ignore for in-browser fun
-  window.theme = theme
 
   return (
     <ThemeProvider<any> theme={theme as any}>
@@ -23,10 +19,7 @@ const App = () => {
           mx: "auto",
         }}
       >
-        <Router>
-          <Visualizer path="/" />
-          <NotFound default />
-        </Router>
+        <Visualizer />
       </Box>
     </ThemeProvider>
   )
