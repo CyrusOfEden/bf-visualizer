@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/bf-visualizer/static/css/main.734cf44f.chunk.css",
+    "main.js": "/bf-visualizer/static/js/main.bd0bddcd.chunk.js",
+    "main.js.map": "/bf-visualizer/static/js/main.bd0bddcd.chunk.js.map",
+    "runtime~main.js": "/bf-visualizer/static/js/runtime~main.4d7d490d.js",
+    "runtime~main.js.map": "/bf-visualizer/static/js/runtime~main.4d7d490d.js.map",
+    "static/js/2.bc05a658.chunk.js": "/bf-visualizer/static/js/2.bc05a658.chunk.js",
+    "static/js/2.bc05a658.chunk.js.map": "/bf-visualizer/static/js/2.bc05a658.chunk.js.map",
+    "index.html": "/bf-visualizer/index.html",
+    "precache-manifest.a277b1ba538eaebb2accd53b3e32c04c.js": "/bf-visualizer/precache-manifest.a277b1ba538eaebb2accd53b3e32c04c.js",
+    "service-worker.js": "/bf-visualizer/service-worker.js",
+    "static/css/main.734cf44f.chunk.css.map": "/bf-visualizer/static/css/main.734cf44f.chunk.css.map"
+  }
+}
