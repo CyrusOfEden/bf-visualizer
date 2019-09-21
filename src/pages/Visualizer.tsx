@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { RouteComponentProps } from "@reach/router"
 
 import { useExecutor } from "services/brainfuckExecutor"
 
@@ -8,7 +7,7 @@ import { Text, Heading, Box, Button } from "rebass"
 import CodeGrid from "components/CodeGrid"
 import CodeForm from "components/CodeForm"
 
-const Visualizer: React.FC<RouteComponentProps> = props => {
+const Visualizer: React.FC = () => {
   const { setScript, isLoading, error, nextStep, state } = useExecutor()
   const [isPlaying, setPlaying] = useState(false)
 
