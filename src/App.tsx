@@ -15,7 +15,9 @@ const App = () => {
         as="main"
         sx={{
           width: "100%",
-          p: [3, 5],
+          pt: [3, 5],
+          px: [3, 5],
+          pb: [6, 4],
           mx: "auto",
         }}
       >
