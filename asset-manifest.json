@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bf-visualizer/static/css/main.734cf44f.chunk.css",
-    "main.js": "/bf-visualizer/static/js/main.7e623255.chunk.js",
-    "main.js.map": "/bf-visualizer/static/js/main.7e623255.chunk.js.map",
+    "main.js": "/bf-visualizer/static/js/main.cb85e4e5.chunk.js",
+    "main.js.map": "/bf-visualizer/static/js/main.cb85e4e5.chunk.js.map",
     "runtime~main.js": "/bf-visualizer/static/js/runtime~main.4d7d490d.js",
     "runtime~main.js.map": "/bf-visualizer/static/js/runtime~main.4d7d490d.js.map",
-    "static/js/2.bc05a658.chunk.js": "/bf-visualizer/static/js/2.bc05a658.chunk.js",
-    "static/js/2.bc05a658.chunk.js.map": "/bf-visualizer/static/js/2.bc05a658.chunk.js.map",
+    "static/js/2.79751f44.chunk.js": "/bf-visualizer/static/js/2.79751f44.chunk.js",
+    "static/js/2.79751f44.chunk.js.map": "/bf-visualizer/static/js/2.79751f44.chunk.js.map",
     "index.html": "/bf-visualizer/index.html",
-    "precache-manifest.afca8b331097179e9dae5e7245349b07.js": "/bf-visualizer/precache-manifest.afca8b331097179e9dae5e7245349b07.js",
+    "precache-manifest.abca73aa3343dca06b3696da3f02a12e.js": "/bf-visualizer/precache-manifest.abca73aa3343dca06b3696da3f02a12e.js",
     "service-worker.js": "/bf-visualizer/service-worker.js",
     "static/css/main.734cf44f.chunk.css.map": "/bf-visualizer/static/css/main.734cf44f.chunk.css.map"
   }
