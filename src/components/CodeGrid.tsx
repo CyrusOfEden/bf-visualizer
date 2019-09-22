@@ -1,8 +1,44 @@
 import React, { useState, useEffect } from "react"
 import { FixedSizeGrid as Grid } from "react-window"
 import AutoSizer from "react-virtualized-auto-sizer"
+import { Text } from "rebass"
 
-import CodeCell, { CodeCellElement } from "./CodeCell"
+type CodeCellElement = string | number
+
+type CodeCellProps = {
+  array: CodeCellElement[]
+  cursor: number
+  index: number
+  activeColor: string
+  style?: { [key: string]: string }
+}
+
+const CodeCell: React.FC<CodeCellProps> = ({
+  cursor,
+  index,
+  array,
+  style,
+  activeColor,
+  ...props
+}) => {
+  const isActive = cursor === index;
+  return (
+    <Text
+      sx={{
+        fontSize: 2,
+        py: 3,
+        fontFamily: "monospace",
+        textAlign: "center",
+        color: isActive ? "white" : "base00",
+        backgroundColor: isActive ? activeColor : "base3",
+      }}
+      style={style}
+      {...props}
+    >
+      {array[index]}
+    </Text>
+  )
+}
 
 // Sufficient to display 8-bit numbers
 const CELL_HEIGHT = 48
@@ -15,7 +51,12 @@ type CodeGridProps = {
   maxRows: number
 }
 
-const CodeGrid: React.FC<CodeGridProps> = ({ maxRows, array, cursor, activeColor }) => {
+const CodeGrid: React.FC<CodeGridProps> = ({
+  maxRows,
+  array,
+  cursor,
+  activeColor,
+}) => {
   const [columns, setColumns] = useState(8)
   const ref = React.createRef<Grid>()
 
@@ -24,18 +65,6 @@ const CodeGrid: React.FC<CodeGridProps> = ({ maxRows, array, cursor, activeColor
     const columnIndex = cursor - rowIndex * columns
     ref.current && ref.current.scrollToItem({ rowIndex, columnIndex })
   }, [ref, cursor, columns])
-
-  const GridCell = ({ rowIndex, columnIndex, style }) => {
-    const index = rowIndex * columns + columnIndex
-    return (
-      <CodeCell
-        element={array[index]}
-        isActive={index === cursor}
-        activeColor={activeColor}
-        style={style}
-      />
-    )
-  }
 
   return (
     <AutoSizer disableHeight>
@@ -52,7 +81,16 @@ const CodeGrid: React.FC<CodeGridProps> = ({ maxRows, array, cursor, activeColor
             height={Math.min(rows, maxRows) * CELL_HEIGHT}
             width={width}
           >
-            {GridCell}
+            {({ rowIndex, columnIndex, style }) => (
+              <CodeCell
+                key={`${rowIndex}:${columnIndex}`}
+                array={array}
+                cursor={cursor}
+                index={rowIndex * columns + columnIndex}
+                activeColor={activeColor}
+                style={style}
+              />
+            )}
           </Grid>
         )
       }}
